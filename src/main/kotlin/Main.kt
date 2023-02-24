@@ -1,7 +1,21 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import java.time.LocalDate
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+fun main(args: Array<String>) {
+    println("Day")
+    val day = readln().toInt()
+    val date = LocalDate.now().withDayOfMonth(day)
+
+    println("Amount")
+    val amount = readln().toDouble()
+
+    println("Comment")
+    val comment = readln()
+
+    println("Category")
+    val category = readln()
+
+    println("Vendor")
+    val vendor = readln()
+
+    println("$date,$amount,$comment,$category,$vendor")
 }
