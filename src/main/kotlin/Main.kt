@@ -1,21 +1,21 @@
 import java.time.LocalDate
 
 fun main(args: Array<String>) {
-    println("Day")
-    val day = readln().toInt()
+    val day = readln("Day").toInt()
     val date = LocalDate.now().withDayOfMonth(day)
 
-    println("Amount")
-    val amount = readln().toDouble()
+    val amount = readln("Amount").toDouble()
 
-    println("Comment")
-    val comment = readln()
+    val comment = readln("Comment")
 
-    println("Category")
-    val category = readln()
+    val category = readln("Category")
 
-    println("Vendor")
-    val vendor = readln()
+    val vendor = readln("Vendor")
 
     println("$date,$amount,$comment,$category,$vendor")
+}
+
+fun readln(prompt: String): String {
+    println(prompt)
+    return readln()
 }
