@@ -1,16 +1,5 @@
 import java.time.LocalDate
 
-enum class Category {
-    APPLIANCE,
-    CLOTH,
-    EDUCATION,
-    ENTERTAINMENT,
-    GIFT,
-    HEALTH,
-    OTHER,
-    TRAVEL,
-}
-
 fun main() {
     SpendingApp().format()
 }
