@@ -1,6 +1,17 @@
 import java.time.LocalDate
 
-fun main(args: Array<String>) {
+enum class Category {
+    APPLIANCE,
+    CLOTH,
+    EDUCATION,
+    ENTERTAINMENT,
+    GIFT,
+    HEALTH,
+    OTHER,
+    TRAVEL,
+}
+
+fun main() {
     val day = readln("Day").toInt()
     val date = LocalDate.now().withDayOfMonth(day)
 
@@ -8,11 +19,16 @@ fun main(args: Array<String>) {
 
     val comment = readln("Comment")
 
-    val category = readln("Category")
+    val categoryString = readln("Category")
+    val category = mapToCategoryEnum(categoryString)
 
     val vendor = readln("Vendor")
 
     println("$date,$amount,$comment,$category,$vendor")
+}
+
+fun mapToCategoryEnum(category: String): String {
+    return Category.valueOf(category.uppercase()).name
 }
 
 fun readln(prompt: String): String {
