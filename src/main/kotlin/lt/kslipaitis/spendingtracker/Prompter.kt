@@ -1,8 +1,5 @@
 package lt.kslipaitis.spendingtracker
 
-class Prompter {
-    fun prompt(message: String): String {
-        println(message)
-        return readln()
-    }
+interface Prompter {
+    fun prompt(message: String): String
 }
