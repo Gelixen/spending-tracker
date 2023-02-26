@@ -2,22 +2,22 @@ import java.time.DateTimeException
 import java.time.LocalDate
 
 fun main() {
-    SpendingApp().format()
+    SpendingApp(Prompter()).format()
 }
 
-class SpendingApp {
+class SpendingApp(private val prompter: Prompter) {
     fun format() {
 
         val date = promptValidDate()
 
-        val amount = readln("Amount").toDouble()
+        val amount = prompter.prompt("Amount").toDouble()
 
-        val comment = readln("Comment")
+        val comment = prompter.prompt("Comment")
 
-        val categoryString = readln("Category")
+        val categoryString = prompter.prompt("Category")
         val category = mapToCategoryEnum(categoryString)
 
-        val vendor = readln("Vendor")
+        val vendor = prompter.prompt("Vendor")
 
         println("$date,$amount,$comment,$category,$vendor")
     }
@@ -26,7 +26,7 @@ class SpendingApp {
         var date: LocalDate
 
         while (true) {
-            val dayString = readln("Enter a payment day:")
+            val dayString = prompter.prompt("Enter a payment day:")
             val day = dayString.toIntOrNull()
             if (day != null) {
                 try {
@@ -48,8 +48,4 @@ class SpendingApp {
         return Category.valueOf(category.uppercase()).name
     }
 
-    fun readln(prompt: String): String {
-        println(prompt)
-        return readln()
-    }
 }
