@@ -96,6 +96,31 @@ class SpendingAppTest {
     }
 
     @ParameterizedTest
+    @ValueSource(strings = ["topo centras", " kilobaitas", "senukai ", " maxima "])
+    fun promptValidVendor(expectedVendor: String) {
+        val prompter = EmptyPrompter(expectedVendor)
+        val app = SpendingApp(prompter)
+
+        val actualVendor = app.promptValidVendor()
+
+        assertEquals(expectedVendor.trim(), actualVendor)
+        assert(prompter.counterToSecondaryResponse == 1)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " "])
+    fun promptValidVendor_invalidPrimaryVendor_retryUntilValid(initialVendor: String) {
+        val expectedVendor = "varle.lt"
+        val prompter = EmptyPrompter(initialVendor, expectedVendor)
+        val app = SpendingApp(prompter)
+
+        val actualVendor = app.promptValidVendor()
+
+        assertEquals(expectedVendor, actualVendor)
+        assert(prompter.counterToSecondaryResponse == 2)
+    }
+
+    @ParameterizedTest
     @ValueSource(strings = [" 1", "13", "24 ", " 27 "])
     fun promptValidDate(expectedDate: String) {
         val prompter = EmptyPrompter(expectedDate)

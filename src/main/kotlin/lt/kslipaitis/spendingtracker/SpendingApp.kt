@@ -14,9 +14,19 @@ class SpendingApp(private val prompter: Prompter) {
 
         val category = promptValidCategory()
 
-        val vendor = prompter.prompt("Vendor")
+        val vendor = promptValidVendor()
 
         println("$date,$amount,$comment,$category,$vendor")
+    }
+
+    fun promptValidVendor(): String {
+        var vendor: String
+
+        do {
+            vendor = prompter.prompt("Input vendor:").trim()
+        } while (vendor.isEmpty())
+
+        return vendor
     }
 
     fun promptValidComment(): String {
