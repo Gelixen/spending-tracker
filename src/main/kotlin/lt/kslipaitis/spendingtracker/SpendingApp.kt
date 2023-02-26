@@ -8,7 +8,7 @@ class SpendingApp(private val prompter: Prompter) {
 
         val date = promptValidDate()
 
-        val amount = prompter.prompt("Amount").toDouble()
+        val amount = promptValidAmount()
 
         val comment = prompter.prompt("Comment")
 
@@ -17,6 +17,23 @@ class SpendingApp(private val prompter: Prompter) {
         val vendor = prompter.prompt("Vendor")
 
         println("$date,$amount,$comment,$category,$vendor")
+    }
+
+    fun promptValidAmount(): Double {
+        var amount: Double
+
+        while (true) {
+            val amountString = prompter.prompt("Input spent amount:")
+
+            try {
+                amount = amountString.toDouble()
+                break
+            } catch (ex: NumberFormatException) {
+                println("Can't convert '$amountString' to double.")
+            }
+        }
+
+        return amount
     }
 
     fun promptValidCategory(): Category {
