@@ -62,7 +62,7 @@ class SpendingApp(private val prompter: Prompter) {
         return category
     }
 
-    private fun promptValidDate(): LocalDate {
+    fun promptValidDate(): LocalDate {
         var date: LocalDate
 
         while (true) {

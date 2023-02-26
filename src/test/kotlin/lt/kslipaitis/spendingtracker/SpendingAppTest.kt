@@ -3,6 +3,7 @@ package lt.kslipaitis.spendingtracker
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.EnumSource
 import org.junit.jupiter.params.provider.ValueSource
+import java.time.LocalDate
 import kotlin.test.assertEquals
 
 class SpendingAppTest {
@@ -91,6 +92,31 @@ class SpendingAppTest {
         val actualComment = app.promptValidComment()
 
         assertEquals(expectedComment, actualComment)
+        assert(prompter.counterToSecondaryResponse == 2)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = [" 1", "13", "24 ", " 27 "])
+    fun promptValidDate(expectedDate: String) {
+        val prompter = EmptyPrompter(expectedDate)
+        val app = SpendingApp(prompter)
+
+        val actualDate = app.promptValidComment()
+
+        assertEquals(expectedDate.trim(), actualDate)
+        assert(prompter.counterToSecondaryResponse == 1)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "0", "33", "100"])
+    fun promptValidDate_invalidPrimaryDate_retryUntilValid(initialDate: String) {
+        val expectedDate = LocalDate.now()
+        val prompter = EmptyPrompter(initialDate, expectedDate.dayOfMonth.toString())
+        val app = SpendingApp(prompter)
+
+        val actualDate = app.promptValidDate()
+
+        assertEquals(expectedDate, actualDate)
         assert(prompter.counterToSecondaryResponse == 2)
     }
 
