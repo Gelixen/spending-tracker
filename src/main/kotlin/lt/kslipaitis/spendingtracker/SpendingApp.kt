@@ -10,13 +10,23 @@ class SpendingApp(private val prompter: Prompter) {
 
         val amount = promptValidAmount()
 
-        val comment = prompter.prompt("Comment")
+        val comment = promptValidComment()
 
         val category = promptValidCategory()
 
         val vendor = prompter.prompt("Vendor")
 
         println("$date,$amount,$comment,$category,$vendor")
+    }
+
+    fun promptValidComment(): String {
+        var comment: String
+
+        do {
+            comment = prompter.prompt("Input comment:").trim()
+        } while (comment.isEmpty())
+
+        return comment
     }
 
     fun promptValidAmount(): Double {

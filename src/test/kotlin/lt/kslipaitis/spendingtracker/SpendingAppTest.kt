@@ -69,6 +69,31 @@ class SpendingAppTest {
         assert(prompter.counterToSecondaryResponse == 2)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["test comment", " another comment", "food ", " game "])
+    fun promptValidComment(expectedComment: String) {
+        val prompter = EmptyPrompter(expectedComment)
+        val app = SpendingApp(prompter)
+
+        val actualComment = app.promptValidComment()
+
+        assertEquals(expectedComment.trim(), actualComment)
+        assert(prompter.counterToSecondaryResponse == 1)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " "])
+    fun promptValidComment_invalidPrimaryAmount_retryUntilValid(initialComment: String) {
+        val expectedComment = "retried comment"
+        val prompter = EmptyPrompter(initialComment, expectedComment)
+        val app = SpendingApp(prompter)
+
+        val actualComment = app.promptValidComment()
+
+        assertEquals(expectedComment, actualComment)
+        assert(prompter.counterToSecondaryResponse == 2)
+    }
+
     class EmptyPrompter(
         private val response1: String = "first",
         private val response2: String = "second"
