@@ -12,12 +12,27 @@ class SpendingApp(private val prompter: Prompter) {
 
         val comment = prompter.prompt("Comment")
 
-        val categoryString = prompter.prompt("Category")
-        val category = mapToCategoryEnum(categoryString)
+        val category = promptValidCategory()
 
         val vendor = prompter.prompt("Vendor")
 
         println("$date,$amount,$comment,$category,$vendor")
+    }
+
+    fun promptValidCategory(): Category {
+        var category: Category
+
+        while (true) {
+            val categoryString = prompter.prompt("Input category:")
+            try {
+                category = Category.valueOf(categoryString.uppercase())
+                break
+            } catch (ex: IllegalArgumentException) {
+                println("Category '$categoryString' doesn't exist.")
+            }
+        }
+
+        return category
     }
 
     private fun promptValidDate(): LocalDate {
@@ -40,10 +55,6 @@ class SpendingApp(private val prompter: Prompter) {
         }
 
         return date
-    }
-
-    fun mapToCategoryEnum(category: String): String {
-        return Category.valueOf(category.uppercase()).name
     }
 
 }
