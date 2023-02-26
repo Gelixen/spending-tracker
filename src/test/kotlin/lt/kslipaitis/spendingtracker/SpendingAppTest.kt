@@ -44,6 +44,31 @@ class SpendingAppTest {
         assert(prompter.counterToSecondaryResponse == 2)
     }
 
+    @ParameterizedTest
+    @ValueSource(strings = ["0", "0.1", "1.23", "105.99"])
+    fun promptValidAmount(amount: String) {
+        val prompter = EmptyPrompter(amount)
+        val app = SpendingApp(prompter)
+
+        val actualAmount = app.promptValidAmount()
+
+        assert(actualAmount in 0.0..110.0)
+        assert(prompter.counterToSecondaryResponse == 1)
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = ["", " ", "test", "1,5", "2 3"])
+    fun promptValidAmount_invalidPrimaryAmount_retryUntilValid(amount: String) {
+        val expectedAmount = "99.0"
+        val prompter = EmptyPrompter(amount, expectedAmount)
+        val app = SpendingApp(prompter)
+
+        val actualAmount = app.promptValidAmount()
+
+        assertEquals(expectedAmount.toDouble(), actualAmount)
+        assert(prompter.counterToSecondaryResponse == 2)
+    }
+
     class EmptyPrompter(
         private val response1: String = "first",
         private val response2: String = "second"
