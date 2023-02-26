@@ -16,7 +16,7 @@ class SpendingAppTest {
         val actualCategory = app.promptValidCategory()
 
         assertEquals(Category.GIFT, actualCategory)
-        assert(prompter.counterToSecondaryResponse < 5)
+        assert(prompter.counterToSecondaryResponse == 1)
     }
 
     @ParameterizedTest
@@ -28,7 +28,7 @@ class SpendingAppTest {
         val actualCategory = app.promptValidCategory()
 
         assertEquals(expectedCategory, actualCategory)
-        assert(prompter.counterToSecondaryResponse < 5)
+        assert(prompter.counterToSecondaryResponse == 1)
     }
 
     @ParameterizedTest
@@ -41,7 +41,7 @@ class SpendingAppTest {
         val actualCategory = app.promptValidCategory()
 
         assertEquals(expectedCategory, actualCategory)
-        assert(prompter.counterToSecondaryResponse >= 5)
+        assert(prompter.counterToSecondaryResponse == 2)
     }
 
     class EmptyPrompter(
@@ -51,7 +51,7 @@ class SpendingAppTest {
         var counterToSecondaryResponse = 0
 
         override fun prompt(message: String): String {
-            return if (counterToSecondaryResponse++ < 5) response1 else response2
+            return if (counterToSecondaryResponse++ == 0) response1 else response2
         }
     }
 }
