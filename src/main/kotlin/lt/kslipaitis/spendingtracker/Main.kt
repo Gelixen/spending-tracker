@@ -1,3 +1,5 @@
+package lt.kslipaitis.spendingtracker
+
 import java.time.DateTimeException
 import java.time.LocalDate
 
@@ -14,7 +16,7 @@ class SpendingApp(private val prompter: Prompter) {
 
         val comment = prompter.prompt("Comment")
 
-        val categoryString = prompter.prompt("Category")
+        val categoryString = prompter.prompt("lt.kslipaitis.spendingtracker.Category")
         val category = mapToCategoryEnum(categoryString)
 
         val vendor = prompter.prompt("Vendor")

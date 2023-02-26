@@ -1,3 +1,5 @@
+package lt.kslipaitis.spendingtracker
+
 enum class Category {
     APPLIANCE,
     CLOTH,
