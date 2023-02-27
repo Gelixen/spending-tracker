@@ -1,5 +1,5 @@
 package lt.kslipaitis.spendingtracker
 
 fun main() {
-    SpendingApp(CliPrompter()).format()
+    SpendingApp(CliPrompter(), ConsoleUtils()).format()
 }

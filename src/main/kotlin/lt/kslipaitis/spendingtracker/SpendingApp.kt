@@ -15,7 +15,7 @@ data class Entry(
     }
 }
 
-class SpendingApp(private val prompter: Prompter) {
+class SpendingApp(private val prompter: Prompter, private val consoleUtils: ConsoleUtils) {
 
     private val entries = mutableListOf<Entry>()
 
@@ -31,7 +31,7 @@ class SpendingApp(private val prompter: Prompter) {
             entries.add(entry)
         } while (readln() != "end")
 
-        entries.forEach { println(it) }
+        entries.forEach { consoleUtils.print(it.toString()) }
     }
 
     fun promptValidVendor(): String {
@@ -64,7 +64,7 @@ class SpendingApp(private val prompter: Prompter) {
                 amount = amountString.toDouble()
                 break
             } catch (ex: NumberFormatException) {
-                println("Can't convert '$amountString' to double.")
+                consoleUtils.printError("Can't convert '$amountString' to double.")
             }
         }
 
@@ -80,7 +80,7 @@ class SpendingApp(private val prompter: Prompter) {
                 category = Category.valueOf(categoryString.uppercase())
                 break
             } catch (ex: IllegalArgumentException) {
-                println("Category '$categoryString' doesn't exist.")
+                consoleUtils.printError("Category '$categoryString' doesn't exist.")
             }
         }
 
@@ -99,10 +99,10 @@ class SpendingApp(private val prompter: Prompter) {
                     break
                 } catch (ex: DateTimeException) {
                     val daysInMonth = LocalDate.now().lengthOfMonth()
-                    println("Invalid input. Only $daysInMonth days in current month")
+                    consoleUtils.printError("Invalid input. Only $daysInMonth days in current month")
                 }
             } else {
-                println("Invalid input.")
+                consoleUtils.printError("Invalid input.")
             }
         }
 
