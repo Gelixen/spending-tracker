@@ -17,7 +17,7 @@ class SpendingApp(private val prompter: Prompter, private val consoleUtils: Cons
 
             val entry = Entry(date, amount, comment, category, vendor)
             entries.add(entry)
-        } while (readln() != "end")
+        } while (consoleUtils.read() != "end")
 
         entries.forEach { consoleUtils.print(it.toString()) }
     }

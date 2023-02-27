@@ -10,4 +10,8 @@ class ConsoleUtils {
         println(redColorMessage)
     }
 
+    fun read(): String {
+        return readln()
+    }
+
 }
