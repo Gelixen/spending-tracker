@@ -17,9 +17,13 @@ class SpendingApp(private val prompter: Prompter, private val consoleUtils: Cons
 
             val entry = Entry(date, amount, comment, category, vendor)
             entries.add(entry)
-        } while (consoleUtils.read() != "end")
+        } while (promptEnd() != "end")
 
         entries.forEach { consoleUtils.print(it.toString()) }
+    }
+
+    private fun promptEnd(): String {
+        return prompter.prompt("Type 'end' to finish or press enter to proceed.")
     }
 
     fun promptValidVendor(): String {
