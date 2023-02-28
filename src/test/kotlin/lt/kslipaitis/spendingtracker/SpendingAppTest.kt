@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 
 class SpendingAppTest {
 
-    private var consoleUtils: ConsoleUtils = ConsoleUtils()
+    private val consoleUtils = ConsoleUtils()
     private val testWriter = EmptyWriter()
 
     @ParameterizedTest
