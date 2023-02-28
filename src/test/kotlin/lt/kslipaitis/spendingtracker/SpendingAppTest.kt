@@ -9,12 +9,12 @@ import kotlin.test.assertEquals
 class SpendingAppTest {
 
     private val consoleUtils = ConsoleUtils()
-    private val testWriter = EmptyWriter()
+    private val testWriter = TestWriter()
 
     @ParameterizedTest
     @ValueSource(strings = ["gift", "GiFT", "GIFT"])
     fun promptValidCategory_randomCaseValidCategory(expectedCategory: String) {
-        val prompter = EmptyPrompter(expectedCategory)
+        val prompter = TestPrompter(expectedCategory)
         val app = createApp(prompter)
 
         val actualCategory = app.promptValidCategory()
@@ -26,7 +26,7 @@ class SpendingAppTest {
     @ParameterizedTest
     @EnumSource(Category::class)
     fun promptValidCategory_categoryEnum(expectedCategory: Category) {
-        val prompter = EmptyPrompter(expectedCategory.name)
+        val prompter = TestPrompter(expectedCategory.name)
         val app = createApp(prompter)
 
         val actualCategory = app.promptValidCategory()
@@ -39,7 +39,7 @@ class SpendingAppTest {
     @ValueSource(strings = ["", " ", "GYFT", "random", "test"])
     fun promptValidCategory_invalidCategory_retryUntilValid(category: String) {
         val expectedCategory = Category.OTHER
-        val prompter = EmptyPrompter(category, expectedCategory.name)
+        val prompter = TestPrompter(category, expectedCategory.name)
         val app = createApp(prompter)
 
         val actualCategory = app.promptValidCategory()
@@ -51,7 +51,7 @@ class SpendingAppTest {
     @ParameterizedTest
     @ValueSource(strings = ["0", "0.1", "1.23", "105.99"])
     fun promptValidAmount(amount: String) {
-        val prompter = EmptyPrompter(amount)
+        val prompter = TestPrompter(amount)
         val app = createApp(prompter)
 
         val actualAmount = app.promptValidAmount()
@@ -64,7 +64,7 @@ class SpendingAppTest {
     @ValueSource(strings = ["", " ", "test", "1,5", "2 3"])
     fun promptValidAmount_invalidPrimaryAmount_retryUntilValid(amount: String) {
         val expectedAmount = "99.0"
-        val prompter = EmptyPrompter(amount, expectedAmount)
+        val prompter = TestPrompter(amount, expectedAmount)
         val app = createApp(prompter)
 
         val actualAmount = app.promptValidAmount()
@@ -76,7 +76,7 @@ class SpendingAppTest {
     @ParameterizedTest
     @ValueSource(strings = ["test comment", " another comment", "food ", " game "])
     fun promptValidComment(expectedComment: String) {
-        val prompter = EmptyPrompter(expectedComment)
+        val prompter = TestPrompter(expectedComment)
         val app = createApp(prompter)
 
         val actualComment = app.promptValidComment()
@@ -89,7 +89,7 @@ class SpendingAppTest {
     @ValueSource(strings = ["", " "])
     fun promptValidComment_invalidPrimaryAmount_retryUntilValid(initialComment: String) {
         val expectedComment = "retried comment"
-        val prompter = EmptyPrompter(initialComment, expectedComment)
+        val prompter = TestPrompter(initialComment, expectedComment)
         val app = createApp(prompter)
 
         val actualComment = app.promptValidComment()
@@ -101,7 +101,7 @@ class SpendingAppTest {
     @ParameterizedTest
     @ValueSource(strings = ["topo centras", " kilobaitas", "senukai ", " maxima "])
     fun promptValidVendor(expectedVendor: String) {
-        val prompter = EmptyPrompter(expectedVendor)
+        val prompter = TestPrompter(expectedVendor)
         val app = createApp(prompter)
 
         val actualVendor = app.promptValidVendor()
@@ -114,7 +114,7 @@ class SpendingAppTest {
     @ValueSource(strings = ["", " "])
     fun promptValidVendor_invalidPrimaryVendor_retryUntilValid(initialVendor: String) {
         val expectedVendor = "varle.lt"
-        val prompter = EmptyPrompter(initialVendor, expectedVendor)
+        val prompter = TestPrompter(initialVendor, expectedVendor)
         val app = createApp(prompter)
 
         val actualVendor = app.promptValidVendor()
@@ -126,7 +126,7 @@ class SpendingAppTest {
     @ParameterizedTest
     @ValueSource(strings = [" 1", "13", "24 ", " 27 "])
     fun promptValidDate(expectedDate: String) {
-        val prompter = EmptyPrompter(expectedDate)
+        val prompter = TestPrompter(expectedDate)
         val app = createApp(prompter)
 
         val actualDate = app.promptValidComment()
@@ -139,7 +139,7 @@ class SpendingAppTest {
     @ValueSource(strings = ["", " ", "0", "33", "100"])
     fun promptValidDate_invalidPrimaryDate_retryUntilValid(initialDate: String) {
         val expectedDate = LocalDate.now()
-        val prompter = EmptyPrompter(initialDate, expectedDate.dayOfMonth.toString())
+        val prompter = TestPrompter(initialDate, expectedDate.dayOfMonth.toString())
         val app = createApp(prompter)
 
         val actualDate = app.promptValidDate()
@@ -148,10 +148,10 @@ class SpendingAppTest {
         assert(prompter.counterToSecondaryResponse == 2)
     }
 
-    private fun createApp(prompter: EmptyPrompter) =
+    private fun createApp(prompter: Prompter) =
         SpendingApp(prompter, consoleUtils, testWriter)
 
-    class EmptyPrompter(
+    class TestPrompter(
         private val response1: String = "first",
         private val response2: String = "second"
     ) : Prompter {
@@ -162,7 +162,7 @@ class SpendingAppTest {
 
     }
 
-    class EmptyWriter : Writer {
+    class TestWriter : Writer {
         override fun writeLine(text: String) {
             TODO("Not yet implemented")
         }
