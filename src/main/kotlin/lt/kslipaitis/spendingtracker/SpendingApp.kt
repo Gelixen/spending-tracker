@@ -3,7 +3,11 @@ package lt.kslipaitis.spendingtracker
 import java.time.DateTimeException
 import java.time.LocalDate
 
-class SpendingApp(private val prompter: Prompter, private val consoleUtils: ConsoleUtils) {
+class SpendingApp(
+    private val prompter: Prompter,
+    private val consoleUtils: ConsoleUtils,
+    private val writer: Writer
+) {
 
     private val entries = mutableListOf<Entry>()
 
@@ -19,7 +23,7 @@ class SpendingApp(private val prompter: Prompter, private val consoleUtils: Cons
             entries.add(entry)
         } while (promptEnd() != "end")
 
-        entries.forEach { consoleUtils.print(it.toString()) }
+        entries.forEach { writer.writeLine(it.toString()) }
     }
 
     private fun promptEnd(): String {
